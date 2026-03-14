@@ -9,6 +9,14 @@ app.use(express.json())
 
 const TOKEN = "2b436d234bc5208dd84ef778f59d7d7a"
 
+/* TEST PAGE */
+
+app.get("/", (req,res)=>{
+res.send("PAKOpaczka API działa")
+})
+
+/* PRICE ENDPOINT */
+
 app.post("/price", async (req,res)=>{
 
 try{
@@ -28,18 +36,19 @@ const data = await response.json()
 
 res.json(data)
 
-}catch(e){
+}catch(err){
 
-res.status(500).json({error:"API error"})
+res.status(500).json({
+error:"API error",
+details:err.toString()
+})
 
 }
 
 })
 
-app.get("/",(req,res)=>{
-res.send("PAKOpaczka API działa")
-})
+const PORT = process.env.PORT || 3000
 
-app.listen(3000,()=>{
-console.log("Server działa na porcie 3000")
+app.listen(PORT, ()=>{
+console.log("Server działa na porcie " + PORT)
 })
